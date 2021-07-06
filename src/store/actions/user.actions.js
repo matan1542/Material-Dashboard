@@ -32,6 +32,7 @@ export function logout() { // Action Creator
 
 }
 export function signup(userCreds) {
+    console.log('userCreds',userCreds);
     return async dispatch => {
         try {
             const user = await userService.signup(userCreds)

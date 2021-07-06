@@ -11,7 +11,8 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { TextField } from "@material-ui/core";
-// import { useDispatch, useSelector } from "react-redux";
+import { signup } from '../../store/actions/user.actions'
+import { useDispatch } from "react-redux";
 
 const styles = {
   cardCategoryWhite: {
@@ -42,17 +43,17 @@ const initalUserObj = {
   city: "",
   country: "",
   postalCode: "",
-  aboutMe:""
+  aboutMe: ""
 };
-export default function SignUp() {
-  
+export default function SignUp(props) {
+  console.log(props)
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const onSubmit = (values, { setSubmitting }) => {
-    console.log(`onSubmit`,values);
+  const onSubmit = async (values, { setSubmitting }) => {
     const user = {
       username: values.username,
-      email: values.email,
-      password:values.password,
+      email: values.emailAddress,
+      password: values.password,
       firstName: values.firstName,
       lastName: values.lastName,
       city: values.city,
@@ -60,45 +61,35 @@ export default function SignUp() {
       postalCode: values.postalCode,
       aboutMe: values.aboutMe
     };
-    console.log('user',user)
+    setSubmitting(false);
+    try {
+      await dispatch(signup(user));
+      // eslint-disable-next-line react/prop-types
+      props.history.push("/admin/dashboard");
+    } catch (err) {
+      console.log("Error in signUp", err);
+    }
 
-    setTimeout(async () => {
-      setSubmitting(false);
-      try {
-        // await props.signup(user);
-        // props.history.push("/toy");
-      } catch (err) {
-        console.log("Error in signUp", err);
-      }
-    }, 400);
   };
 
-  //   const handleChange = ({ target }) => {
-  //     const name = target.name;
-  //     const value = target.value;
-  //     setSignUpUser((prevstate) => {
-  //       ...prevstate,
-  //       prevstate[name] = value,
-  //     })
-  // }
   const validate = values => {
     const errors = {};
     if (!values.emailAddress) {
       errors.emailAddress = "Required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.emailAddress)) {
       errors.emailAddress = "Invalid email address";
     }
     if (values.password.length < 5) {
       errors.password = "too short pass";
     }
-    if(!values.username) errors.username = "Required";
-    if(!values.company) errors.company = "Required";
-    if(!values.firstName) errors.firstName = "Required";
-    if(!values.lastName) errors.lastName = "Required";
-    if(!values.city) errors.city = "Required";
-    if(!values.country) errors.country = "Required";
-    if(!values.postalCode) errors.postalCode = "Required";
-    if(!values.aboutMe) errors.aboutMe = "Required";
+    if (!values.username) errors.username = "Required";
+    if (!values.company) errors.company = "Required";
+    if (!values.firstName) errors.firstName = "Required";
+    if (!values.lastName) errors.lastName = "Required";
+    if (!values.city) errors.city = "Required";
+    if (!values.country) errors.country = "Required";
+    if (!values.postalCode) errors.postalCode = "Required";
+    if (!values.aboutMe) errors.aboutMe = "Required";
     return errors;
   };
   const TextFieldOutlined = (props) => (
@@ -126,7 +117,7 @@ export default function SignUp() {
                       <Field
                         name="company"
                         label="Company"
-                        as={TextFieldOutlined}/>
+                        as={TextFieldOutlined} />
                       <ErrorMessage name="company" component="div" />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={3}>
@@ -166,6 +157,7 @@ export default function SignUp() {
                       <Field
                         name="password"
                         label="Password"
+                        type="password"
                         as={TextFieldOutlined} />
                       <ErrorMessage name="password" component="div" />
                     </GridItem>
@@ -176,7 +168,7 @@ export default function SignUp() {
                         name="city"
                         label="City"
                         as={TextFieldOutlined} />
-                    <ErrorMessage name="city" component="div" />
+                      <ErrorMessage name="city" component="div" />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <Field
@@ -199,8 +191,8 @@ export default function SignUp() {
                       <Field
                         name="aboutMe"
                         label="About Me"
-                        multiline = {true}
-                        rows = {2}
+                        multiline={true}
+                        rows={2}
                         as={TextFieldOutlined} />
                       <ErrorMessage name="aboutMe" component="div" />
                     </GridItem>

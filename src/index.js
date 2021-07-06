@@ -26,18 +26,23 @@ import RTL from "layouts/RTL.js";
 
 import "assets/css/material-dashboard-react.css?v=1.8.0";
 import SignUp from "./views/SignUp/SignUp";
+import {store} from './store/store'
+import { Provider } from "react-redux";
+import  Login  from "views/Login/Login";
 
 const hist = createBrowserHistory();
 
 ReactDOM.render(
+  <Provider store={store}>
   <Router history={hist}>
     <Switch>
       <Route path="/admin" component={Admin} />
       <Route path="/rtl" component={RTL} />
-      <Route path="/login" component={RTL} />
+      <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
-      <Redirect from="/" to="/admin/dashboard" />
+      <Redirect from="/" to="login" />
     </Switch>
-  </Router>,
+  </Router>
+  </Provider>,
   document.getElementById("root")
 );
