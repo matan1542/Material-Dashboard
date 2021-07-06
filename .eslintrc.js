@@ -5,6 +5,9 @@ module.exports = {
     node: true,
     browser: true
   },
+  rules:{
+    "prettier/prettier": 0
+  },
   parserOptions: {
     ecmaVersion: 6,
     sourceType: "module",

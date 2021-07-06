@@ -1,16 +1,17 @@
-import React from "react";
 // @material-ui/core components
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { TextField } from "@material-ui/core";
+// import { useDispatch, useSelector } from "react-redux";
 
 const styles = {
   cardCategoryWhite: {
@@ -30,124 +31,188 @@ const styles = {
     textDecoration: "none"
   }
 };
-
+//define how how the user should be called
 const useStyles = makeStyles(styles);
-
+const initalUserObj = {
+  username: "",
+  email: "",
+  firstName: "",
+  password: "",
+  lastName: "",
+  city: "",
+  country: "",
+  postalCode: "",
+  aboutMe:""
+};
 export default function SignUp() {
+  
   const classes = useStyles();
+  const onSubmit = (values, { setSubmitting }) => {
+    console.log(`onSubmit`,values);
+    const user = {
+      username: values.username,
+      email: values.email,
+      password:values.password,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      city: values.city,
+      country: values.country,
+      postalCode: values.postalCode,
+      aboutMe: values.aboutMe
+    };
+    console.log('user',user)
+
+    setTimeout(async () => {
+      setSubmitting(false);
+      try {
+        // await props.signup(user);
+        // props.history.push("/toy");
+      } catch (err) {
+        console.log("Error in signUp", err);
+      }
+    }, 400);
+  };
+
+  //   const handleChange = ({ target }) => {
+  //     const name = target.name;
+  //     const value = target.value;
+  //     setSignUpUser((prevstate) => {
+  //       ...prevstate,
+  //       prevstate[name] = value,
+  //     })
+  // }
+  const validate = values => {
+    const errors = {};
+    if (!values.emailAddress) {
+      errors.emailAddress = "Required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.emailAddress = "Invalid email address";
+    }
+    if (values.password.length < 5) {
+      errors.password = "too short pass";
+    }
+    if(!values.username) errors.username = "Required";
+    if(!values.company) errors.company = "Required";
+    if(!values.firstName) errors.firstName = "Required";
+    if(!values.lastName) errors.lastName = "Required";
+    if(!values.city) errors.city = "Required";
+    if(!values.country) errors.country = "Required";
+    if(!values.postalCode) errors.postalCode = "Required";
+    if(!values.aboutMe) errors.aboutMe = "Required";
+    return errors;
+  };
+  const TextFieldOutlined = (props) => (
+    <TextField {...props} fullWidth />
+  );
   return (
     <div>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-          <Card>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>SignUp </h4>
-              <p className={classes.cardCategoryWhite}>Complete your profile</p>
-            </CardHeader>
-            <CardBody>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={5}>
-                  <CustomInput
-                    labelText="Company (disabled)"
-                    id="company-disabled"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      disabled: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    labelText="Username"
-                    id="username"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Email address"
-                    id="email-address"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="First Name"
-                    id="first-name"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Last Name"
-                    id="last-name"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="City"
-                    id="city"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Country"
-                    id="country"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Postal Code"
-                    id="postal-code"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
-                  <InputLabel style={{ color: "#AAAAAA" }}>About me</InputLabel>
-                  <CustomInput
-                    labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
-                    id="about-me"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      multiline: true,
-                      rows: 5
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-            </CardBody>
-            <CardFooter>
-              <Button color="primary">Sign Up Profile</Button>
-            </CardFooter>
-          </Card>
-        </GridItem>
+        <Formik
+          initialValues={initalUserObj}
+          validate={validate}
+          onSubmit={onSubmit} >
+          <GridItem xs={12} sm={12} md={12}>
+            <Form>
+              <Card>
+                <CardHeader color="primary">
+                  <h4 className={classes.cardTitleWhite}>SignUp </h4>
+                  <p className={classes.cardCategoryWhite}>
+                    Complete your profile
+                  </p>
+                </CardHeader>
+                <CardBody>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={5}>
+                      <Field
+                        name="company"
+                        label="Company"
+                        as={TextFieldOutlined}/>
+                      <ErrorMessage name="company" component="div" />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={3}>
+                      <Field
+                        name="username"
+                        label="Username"
+                        as={TextFieldOutlined} />
+                      <ErrorMessage name="username" component="div" />
+                    </GridItem>
+
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Field
+                        name="emailAddress"
+                        label="Email address"
+                        as={TextFieldOutlined} />
+                      <ErrorMessage name="emailAddress" component="div" />
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Field
+                        name="firstName"
+                        id="firstName"
+                        label="First Name"
+                        as={TextFieldOutlined}
+                      />
+                      <ErrorMessage name="firstName" component="div" />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Field
+                        name="lastName"
+                        label="Last Name"
+                        as={TextFieldOutlined} />
+                      <ErrorMessage name="lastName" component="div" />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Field
+                        name="password"
+                        label="Password"
+                        as={TextFieldOutlined} />
+                      <ErrorMessage name="password" component="div" />
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Field
+                        name="city"
+                        label="City"
+                        as={TextFieldOutlined} />
+                    <ErrorMessage name="city" component="div" />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Field
+                        name="country"
+                        label="Country"
+                        as={TextFieldOutlined} />
+                      <ErrorMessage name="country" component="div" />
+                    </GridItem>
+
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Field
+                        name="postalCode"
+                        label="Postal Code"
+                        as={TextFieldOutlined} />
+                      <ErrorMessage name="postalCode" component="div" />
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <Field
+                        name="aboutMe"
+                        label="About Me"
+                        multiline = {true}
+                        rows = {2}
+                        as={TextFieldOutlined} />
+                      <ErrorMessage name="aboutMe" component="div" />
+                    </GridItem>
+                  </GridContainer>
+                </CardBody>
+                <CardFooter>
+                  <Button type="submit" color="primary">Sign Up Profile</Button>
+                </CardFooter>
+              </Card>
+            </Form>
+          </GridItem>
+        </Formik>
       </GridContainer>
     </div>
   );
