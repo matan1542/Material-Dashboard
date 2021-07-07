@@ -8,7 +8,6 @@ async function getStock() {
     const url = 'https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/day/2020-06-01/2020-06-17?apiKey=v4oMLDDoJQ0T4x7OdWE48io87E6NzUwV';
     try {
         const res = await axios.get(url)
-        console.log('res',res.data.results)
         return res.data.results
     }
     catch(err){

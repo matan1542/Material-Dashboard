@@ -55,9 +55,7 @@ function Dashboard(props) {
     if (!isMounted) {
       const loadFinanceData = async () => {
         const data = await apiService.getStock()
-        console.log('data', data)
         const fincaneData = data.map((value) => {
-          console.log(value.o)
           return value.o
         })
         const idxs = data.map((value, idx) => idx)
@@ -65,7 +63,6 @@ function Dashboard(props) {
            series: [fincaneData],
            labels: [idxs]
         }
-        console.log('fincaneData', dataObj)
         setSales(dataObj)
       }
       loadFinanceData()

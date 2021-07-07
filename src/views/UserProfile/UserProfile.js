@@ -51,7 +51,6 @@ function UserProfile() {
   useEffect(() => {
     if (!isMounted) {
       loadLoggedInUser()
-      console.log('User',user)
     }
     async function loadLoggedInUser() {
       await loadUser()
