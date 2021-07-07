@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
@@ -18,12 +19,17 @@ import Search from "@material-ui/icons/Search";
 // core components
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
+import { logout } from '../../store/actions/user.actions'
+import {useDispatch } from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 
 const useStyles = makeStyles(styles);
 
-export default function AdminNavbarLinks() {
+ function AdminNavbarLinks(props) {
+  
+  const dispatch = useDispatch()
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
@@ -44,7 +50,9 @@ export default function AdminNavbarLinks() {
       setOpenProfile(event.currentTarget);
     }
   };
-  const handleCloseProfile = () => {
+  const handleCloseProfile = async() => {
+    await dispatch(logout())
+    props.history.push('/login')
     setOpenProfile(null);
   };
   return (
@@ -222,3 +230,5 @@ export default function AdminNavbarLinks() {
     </div>
   );
 }
+
+export default withRouter(AdminNavbarLinks)

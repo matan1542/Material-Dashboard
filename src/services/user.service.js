@@ -6,9 +6,7 @@ export const userService = {
     login,
     logout,
     signup,
-    getUsers,
     getById,
-    remove,
     update,
     getLoggedinUser
 }
@@ -17,15 +15,9 @@ export const userService = {
 // userService.signup({fullname: 'Master Adminov', username: 'admin', password:'123', score: 100, isAdmin: true})
 // userService.signup({fullname: 'Muki G', username: 'muki', password:'123', score: 100})
 
-function getUsers() {
-    return httpService.get(`user`)
-}
 
 function getById(userId) {
     return httpService.get(`user/${userId}`)
-}
-function remove(userId) {
-    return httpService.delete(`user/${userId}`)
 }
 
 async function update(user) {

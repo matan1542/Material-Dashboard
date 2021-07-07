@@ -61,11 +61,12 @@ export default function SignUp(props) {
       postalCode: values.postalCode,
       aboutMe: values.aboutMe
     };
-    setSubmitting(false);
+    
     try {
       await dispatch(signup(user));
       // eslint-disable-next-line react/prop-types
       props.history.push("/admin/dashboard");
+      setSubmitting(false);
     } catch (err) {
       console.log("Error in signUp", err);
     }
