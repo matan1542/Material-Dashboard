@@ -52,7 +52,7 @@ export default function SignUp(props) {
   const classes = useStyles();
   useEffect(() => {
     onLoad();
-  }, []);
+  });
 
   async function onLoad() {
     if(loggedInUser?.token) props.history.push('/admin/dashboard')
@@ -64,6 +64,7 @@ export default function SignUp(props) {
       password: values.password,
       firstName: values.firstName,
       lastName: values.lastName,
+      company: values.company,
       city: values.city,
       country: values.country,
       postalCode: values.postalCode,

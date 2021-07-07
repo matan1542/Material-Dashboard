@@ -50,11 +50,14 @@ const useStyles = makeStyles(styles);
       setOpenProfile(event.currentTarget);
     }
   };
-  const handleCloseProfile = async() => {
-    await dispatch(logout())
-    props.history.push('/login')
+  const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+  const handleLogout = async() => {
+    await dispatch(logout())
+    props.history.push('/login')
+    handleCloseProfile()
+  }
   return (
     <div>
       <div className={classes.searchWrapper}>
@@ -215,7 +218,7 @@ const useStyles = makeStyles(styles);
                     </MenuItem>
                     <Divider light />
                     <MenuItem
-                      onClick={handleCloseProfile}
+                      onClick={handleLogout}
                       className={classes.dropdownItem}
                     >
                       Logout
