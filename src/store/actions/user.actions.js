@@ -1,6 +1,6 @@
 import { userService } from '../../services/user.service.js'
 
-export function login(credentials) { // Action Creator
+export  function login(credentials) { // Action Creator
     return async dispatch => {
         try {
             const user = await userService.login(credentials)
@@ -9,8 +9,10 @@ export function login(credentials) { // Action Creator
                 user
             }
             dispatch(action)
+            return Promise.resolve(user)
         } catch (err) {
             console.log('userAction: err in login/signUp', err);
+            throw new Error('Invalid email/password')
         }
 
 

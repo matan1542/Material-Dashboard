@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 // @material-ui/core components
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
@@ -12,7 +13,7 @@ import CardFooter from "components/Card/CardFooter.js";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { TextField } from "@material-ui/core";
 import { signup } from '../../store/actions/user.actions'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const styles = {
   cardCategoryWhite: {
@@ -46,9 +47,16 @@ const initalUserObj = {
   aboutMe: ""
 };
 export default function SignUp(props) {
-  console.log(props)
   const dispatch = useDispatch();
+  const {loggedInUser} = useSelector((state)=> state.userModule)
   const classes = useStyles();
+  useEffect(() => {
+    onLoad();
+  }, []);
+
+  async function onLoad() {
+    if(loggedInUser?.token) props.history.push('/admin/dashboard')
+  }
   const onSubmit = async (values, { setSubmitting }) => {
     const user = {
       username: values.username,
