@@ -49,8 +49,8 @@ const useStyles = makeStyles(styles);
   const {loggedInUser} = useSelector((state)=> state.userModule)
 
   useEffect(() => {
-    onLoad();
-  });
+      onLoad();
+  },[loggedInUser]);
 
   async function onLoad() {
     if(!loggedInUser?.token) props.history.push('/login')

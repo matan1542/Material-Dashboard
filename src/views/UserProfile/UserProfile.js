@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,6 +19,7 @@ import { useState } from "react";
 import { TextField } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { updateUser } from '../../store/actions/user.actions'
+import { withRouter } from "react-router-dom";
 
 const styles = {
   cardCategoryWhite: {
@@ -40,7 +42,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function UserProfile() {
+function UserProfile() {
   const [user, setUser] = useState()
   const [isMounted, setIsMounted] = useState(false);
   const dispatch = useDispatch()
@@ -195,7 +197,7 @@ export default function UserProfile() {
                 </GridContainer>
               </CardBody>
               <CardFooter>
-                <Button color="primary">Update Profile</Button>
+                <Button type="submit" color="primary">Update Profile</Button>
               </CardFooter>
             </form>
           </Card>
@@ -209,11 +211,9 @@ export default function UserProfile() {
             </CardAvatar>
             <CardBody profile>
               <h6 className={classes.cardCategory}>CEO / CO-FOUNDER</h6>
-              <h4 className={classes.cardTitle}>Alec Thompson</h4>
+              <h4 className={classes.cardTitle}>{`${user.firstName} ${user.lastName}`}</h4>
               <p className={classes.description}>
-                Don{"'"}t be scared of the truth because we need to restart the
-                human foundation in truth And I love you like Kanye loves Kanye
-                I love Rick Owens’ bed design but the back is...
+                {user.aboutMe}
               </p>
               <Button color="primary" round>
                 Follow
@@ -225,3 +225,5 @@ export default function UserProfile() {
     </div>
   );
 }
+
+export default withRouter(UserProfile)

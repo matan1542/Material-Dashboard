@@ -46,10 +46,12 @@ export function signup(userCreds) {
 }
 
 export function updateUser(user) {
+    console.log('update user ', user)
     return async dispatch => {
         try {
             const updateUser = await userService.update(user)
-            dispatch({ type: 'SET_USER', updateUser })
+            console.log('update user ', updateUser)
+            dispatch({ type: 'SET_USER', user:{...updateUser} })
         } catch (err) {
             console.log('UserActions: err in updateUser', err)
         }

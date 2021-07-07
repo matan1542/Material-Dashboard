@@ -24,9 +24,23 @@ function getById(token) {
     return httpService.get(`user/${token.token}`)
 }
 
-async function update(user) {
-    user = await httpService.put(`user/${user._id}`, user)
-    if (getLoggedinUser()._id === user._id) _saveLocalUser(user)
+async function update(userToSave) {
+    const user = {
+        _id: userToSave._id,
+        username: userToSave.username || '' ,
+        email: userToSave.email || '',
+        password: userToSave.password || '',
+        firstName: userToSave.firstName || '',
+        lastName: userToSave.lastName || '',
+        city: userToSave.city || '',
+        country: userToSave.country || '',
+        postalCode: userToSave.postalCode || '',
+        aboutMe: userToSave.aboutMe || ''
+    }
+    const token = JSON.parse(sessionStorage.getItem('loggedinUser') || 'null')
+   const updatedUser = await httpService.put(`user/${user._id}`, {user,token})
+   _saveLocalUser(updatedUser)
+   return updatedUser
 }
 
 
@@ -54,4 +68,5 @@ async function getLoggedinUser() {
     const user = await getById(loggedInUser)
     return user
 }
+
 
