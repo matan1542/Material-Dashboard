@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react/prop-types */
+import React, { useEffect } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -28,6 +29,8 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import { useSelector} from "react-redux";
+
 
 import { bugs, website, server } from "variables/general.js";
 
@@ -38,10 +41,20 @@ import {
 } from "variables/charts.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
-export default function Dashboard() {
+ function Dashboard(props) {
+  const {loggedInUser} = useSelector((state)=> state.userModule)
+
+  useEffect(() => {
+    onLoad();
+  }, []);
+
+  async function onLoad() {
+    if(!loggedInUser?.token) props.history.push('/login')
+  }
   const classes = useStyles();
   return (
     <div>
@@ -263,3 +276,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
+export default withRouter(Dashboard)

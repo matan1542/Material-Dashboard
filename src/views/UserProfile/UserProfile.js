@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -12,6 +12,8 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+// import {} from '../../store/actions/user.actions'
+import {userService} from '../../services/user.service'
 
 import avatar from "assets/img/faces/marc.jpg";
 
@@ -38,6 +40,15 @@ const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
   const classes = useStyles();
+
+  useEffect(()=>{
+    loadUser()
+  },[])
+  const loadUser = () => {
+    const user = userService.getLoggedinUser()
+    console.log(user)
+    return user
+  }
   return (
     <div>
       <GridContainer>
