@@ -50,7 +50,7 @@ const useStyles = makeStyles(styles);
 
   useEffect(() => {
     onLoad();
-  }, []);
+  });
 
   async function onLoad() {
     if(!loggedInUser?.token) props.history.push('/login')

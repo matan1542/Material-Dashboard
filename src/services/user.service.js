@@ -16,8 +16,12 @@ export const userService = {
 // userService.signup({fullname: 'Muki G', username: 'muki', password:'123', score: 100})
 
 
-function getById(userId) {
-    return httpService.get(`user/${userId}`)
+function getById(token) {
+    // const user = {
+    //     user:'lala',
+    //     password:'dasdasdds'
+    // }
+    return httpService.get(`user/${token.token}`)
 }
 
 async function update(user) {
@@ -32,7 +36,8 @@ async function login(userCred) {
 }
 async function signup(userCred) {
     const user = await httpService.post('auth/signup', userCred)
-    return _saveLocalUser(user)
+    return _saveLocalUser(user) 
+
 }
 async function logout() {
     sessionStorage.clear()
@@ -43,7 +48,10 @@ function _saveLocalUser(user) {
     return user
 }
 
-function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem('loggedinUser') || 'null')
+async function getLoggedinUser() {
+    const loggedInUser = JSON.parse(sessionStorage.getItem('loggedinUser') || 'null')
+    console.log('loggedInUser',loggedInUser)
+    const user = await getById(loggedInUser)
+    return user
 }
 

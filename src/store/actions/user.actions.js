@@ -44,3 +44,14 @@ export function signup(userCreds) {
         }
     }
 }
+
+export function updateUser(user) {
+    return async dispatch => {
+        try {
+            const updateUser = await userService.update(user)
+            dispatch({ type: 'SET_USER', updateUser })
+        } catch (err) {
+            console.log('UserActions: err in updateUser', err)
+        }
+    }
+}
