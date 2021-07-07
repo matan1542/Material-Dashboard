@@ -1,4 +1,5 @@
 // ##############################
+// import {apiService} from '../services/api.service'
 // // // javascript library for creating charts
 // #############################
 var Chartist = require("chartist");
@@ -10,6 +11,15 @@ var delays = 80,
   durations = 500;
 var delays2 = 80,
   durations2 = 500;
+
+  // const financeOptions = []
+
+  // const loadFinanceData = async()=>{
+  //   const data = await apiService.getStock()
+  //   return data.map((value)=>{
+  //     return Object.entries(value)
+  //   })
+  // }
 
 // ##############################
 // // // Daily Sales
@@ -25,7 +35,7 @@ const dailySalesChart = {
       tension: 0
     }),
     low: 0,
-    high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    high: 900, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
     chartPadding: {
       top: 0,
       right: 0,

@@ -29,7 +29,8 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
+import { apiService } from '../../services/api.service'
 
 
 import { bugs, website, server } from "variables/general.js";
@@ -42,18 +43,41 @@ import {
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import { withRouter } from "react-router-dom";
+import { useState } from "react";
 
 const useStyles = makeStyles(styles);
 
- function Dashboard(props) {
-  const {loggedInUser} = useSelector((state)=> state.userModule)
-
+function Dashboard(props) {
+  const [sales, setSales] = useState()
+  const { loggedInUser } = useSelector((state) => state.userModule)
+  const [isMounted, setIsMounted] = useState()
   useEffect(() => {
-      onLoad();
-  },[loggedInUser]);
+    if (!isMounted) {
+      const loadFinanceData = async () => {
+        const data = await apiService.getStock()
+        console.log('data', data)
+        const fincaneData = data.map((value) => {
+          console.log(value.o)
+          return value.o
+        })
+        const idxs = data.map((value, idx) => idx)
+        const dataObj = {
+           series: [fincaneData],
+           labels: [idxs]
+        }
+        console.log('fincaneData', dataObj)
+        setSales(dataObj)
+      }
+      loadFinanceData()
+      setIsMounted(true)
+    }
+
+    onLoad();
+  });
 
   async function onLoad() {
-    if(!loggedInUser?.token) props.history.push('/login')
+    // apiService.getStock()
+    if (!loggedInUser?.token) props.history.push('/login')
   }
   const classes = useStyles();
   return (
@@ -140,7 +164,7 @@ const useStyles = makeStyles(styles);
             <CardHeader color="success">
               <ChartistGraph
                 className="ct-chart"
-                data={dailySalesChart.data}
+                data={sales}
                 type="Line"
                 options={dailySalesChart.options}
                 listener={dailySalesChart.animation}
