@@ -11,9 +11,10 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { TextField } from "@material-ui/core";
+import { Box, TextField } from "@material-ui/core";
 import { signup } from '../../store/actions/user.actions'
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "@material-ui/core";
 
 const styles = {
   cardCategoryWhite: {
@@ -211,6 +212,12 @@ export default function SignUp(props) {
                 <CardFooter>
                   <Button type="submit" color="primary">Sign Up Profile</Button>
                 </CardFooter>
+                <Box m={1}>
+            <Link href="/login" variant="body2">
+              {"Do you have an account? Log in"}
+            </Link>
+            </Box>
+       
               </Card>
             </Form>
           </GridItem>
