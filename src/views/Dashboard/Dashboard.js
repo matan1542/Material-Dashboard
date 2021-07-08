@@ -77,6 +77,7 @@ function Dashboard(props) {
     if (!loggedInUser?.token) props.history.push('/login')
   }
   const classes = useStyles();
+  if(!sales) return <div>Loading..</div>
   return (
     <div>
       <GridContainer>
