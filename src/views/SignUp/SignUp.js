@@ -75,7 +75,7 @@ export default function SignUp(props) {
     try {
       await dispatch(signup(user));
       // eslint-disable-next-line react/prop-types
-      props.history.push("/admin/dashboard");
+      props.history.push("/login");
       setSubmitting(false);
     } catch (err) {
       console.log("Error in signUp", err);

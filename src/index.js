@@ -19,6 +19,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { ToastProvider} from 'react-toast-notifications';
 
 // core components
 import Admin from "layouts/Admin.js";
@@ -32,17 +33,20 @@ import  Login  from "views/Login/Login";
 
 const hist = createBrowserHistory();
 
+
 ReactDOM.render(
   <Provider store={store}>
+    <ToastProvider>
   <Router history={hist}>
     <Switch>
       <Route path="/admin" component={Admin} />
       <Route path="/rtl" component={RTL} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
-      <Redirect from="/" to="login" />
+      <Redirect from="/" to="login"/>
     </Switch>
   </Router>
+  </ToastProvider>
   </Provider>,
   document.getElementById("root")
 );
