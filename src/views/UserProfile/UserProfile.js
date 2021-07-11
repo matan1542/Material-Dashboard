@@ -86,6 +86,7 @@ function UserProfile() {
       addToast('Update error', { appearance: 'success',id:'update-user-error' }) 
       setTimeout(()=>{
         removeToast('update-user-error')
+        
       },2000)
     }
 
